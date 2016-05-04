@@ -32,7 +32,7 @@ class Dashboard(six.with_metaclass(MediaDefiningClass, BaseModel)):
             'controlcenter/js/scripts.js',
         )
 
-    def __init__(self, pk):
+    def __init__(self, pk=None):
         super(Dashboard, self).__init__()
         self.pk = self.id = pk
 
