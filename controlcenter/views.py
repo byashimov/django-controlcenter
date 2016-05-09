@@ -41,23 +41,25 @@ class ControlCenter(object):
 controlcenter = ControlCenter()
 
 
-class DashboardView(TemplateView):
+class DashboardBaseView(TemplateView):
     template_name = 'controlcenter/dashboard.html'
 
     @method_decorator(staff_member_required)
     def dispatch(self, *args, **kwargs):
-        return super(DashboardView, self).dispatch(*args, **kwargs)
+        return super(DashboardBaseView, self).dispatch(*args, **kwargs)
+
+    def get_dashboard(self):
+        pk = int(self.kwargs.get('pk'))
+        return controlcenter.dashboards[pk]
 
     def get(self, request, *args, **kwargs):
-        pk = int(self.kwargs.get('pk'))
-        self.dashboard = controlcenter.dashboards[pk]
-        return super(DashboardView, self).get(request, *args, **kwargs)
+        self.dashboard = self.get_dashboard()
+        return super(DashboardBaseView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = {
             'title': self.dashboard.title,
             'dashboard': self.dashboard,
-            'dashboards': controlcenter.dashboards,
             'groups': self.dashboard.get_widgets(self.request),
             'sharp': app_settings.SHARP,
         }
@@ -65,6 +67,16 @@ class DashboardView(TemplateView):
         # Admin context
         kwargs.update(admin.site.each_context(self.request))
         kwargs.update(context)
-        return super(DashboardView, self).get_context_data(**kwargs)
+        return super(DashboardBaseView, self).get_context_data(**kwargs)
+
+
+class DashboardView(DashboardBaseView):
+
+    def get_context_data(self, **kwargs):
+        context = super(DashboardView, self).get_context_data(**kwargs)
+        # add dashboards from settings.CONTROLCENTER_DASHBOARDS to create navigation
+        context['dashboards'] = controlcenter.dashboards
+
+        return context
 
 dashboard_view = DashboardView.as_view()
