@@ -15,18 +15,23 @@ class ControlCenter(object):
         self.view_class = view_class
 
     def get_dashboards(self):
-        _dashboards = app_settings.DASHBOARDS
-        if isinstance(_dashboards, dict):
-            dashboards = {
-                slug: import_string(klass)(pk=slug)
-                for slug, klass in _dashboards.items()
-            }
+        if isinstance(app_settings.DASHBOARDS, dict):
+            dashboards = self.slug_dashboards()
         else:
-            klasses = map(import_string, app_settings.DASHBOARDS)
-            dashboards = [klass(pk=pk) for pk, klass in enumerate(klasses)]
+            dashboards = self.pk_dashboards()
         if not dashboards:
             raise ImproperlyConfigured('No dashboards found.')
         return dashboards
+
+    def pk_dashboards(self):
+        klasses = map(import_string, app_settings.DASHBOARDS)
+        return [klass(pk=pk) for pk, klass in enumerate(klasses)]
+
+    def slug_dashboards(self):
+        return {
+            slug: import_string(klass)(pk=slug)
+            for slug, klass in app_settings.DASHBOARDS.items()
+        }
 
     def get_view(self):
         dashboards = self.get_dashboards()
