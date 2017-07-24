@@ -87,6 +87,21 @@ class B_DashboardTest(TestCase):
         self.assertIsInstance(next(dashboard.get_widgets(request=None)),
                               widgets.Group)
 
+    @override_settings(
+        ROOT_URLCONF='test_urls',
+        CONTROLCENTER_DASHBOARDS={'empty': 'dashboards.EmptyDashboard',
+                                  'non-empty': 'dashboards.NonEmptyDashboard'})
+    def test_slug_dashboard(self):
+        url = reverse('controlcenter:dashboard-slug', kwargs={'slug': 'non-empty'})
+        # Staff proceed
+        from django.conf import settings
+        print(settings.CONTROLCENTER_DASHBOARDS)
+        import controlcenter
+        print(controlcenter.app_settings.DASHBOARDS)
+        self.client.login(username='superuser', password='superpassword')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
     def test_multiple_dashboards(self):
         self.client.login(username='superuser', password='superpassword')
         dashboards = ['dashboards.NonEmptyDashboard' for i in range(30)]
