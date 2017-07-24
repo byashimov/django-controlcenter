@@ -15,11 +15,23 @@ class ControlCenter(object):
         self.view_class = view_class
 
     def get_dashboards(self):
-        klasses = map(import_string, app_settings.DASHBOARDS)
-        dashboards = [klass(pk=pk) for pk, klass in enumerate(klasses)]
+        if isinstance(app_settings.DASHBOARDS, dict):
+            dashboards = self.slug_dashboards()
+        else:
+            dashboards = self.pk_dashboards()
         if not dashboards:
             raise ImproperlyConfigured('No dashboards found.')
         return dashboards
+
+    def pk_dashboards(self):
+        klasses = map(import_string, app_settings.DASHBOARDS)
+        return [klass(pk=pk) for pk, klass in enumerate(klasses)]
+
+    def slug_dashboards(self):
+        return {
+            slug: import_string(klass)(pk=slug)
+            for slug, klass in app_settings.DASHBOARDS.items()
+        }
 
     def get_view(self):
         dashboards = self.get_dashboards()
@@ -28,6 +40,7 @@ class ControlCenter(object):
     def get_urls(self):
         urlpatterns = [
             url(r'^(?P<pk>\d+)/$', self.get_view(), name='dashboard'),
+            url(r'^(?P<slug>.+)/$', self.get_view(), name='dashboard-slug'),
         ]
         return urlpatterns
 
@@ -45,10 +58,13 @@ class DashboardView(TemplateView):
         return super(DashboardView, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        pk = int(self.kwargs['pk'])
+        if 'pk' in self.kwargs:
+            pk = int(self.kwargs['pk'])
+        elif 'slug' in self.kwargs:
+            pk = self.kwargs['slug']
         try:
             self.dashboard = self.dashboards[pk]
-        except IndexError:
+        except (IndexError, KeyError):
             raise Http404('Dashboard not found.')
         return super(DashboardView, self).get(request, *args, **kwargs)
 

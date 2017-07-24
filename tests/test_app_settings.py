@@ -22,6 +22,11 @@ class AppConfTest(TestCase):
         self.assertEqual(app_settings.DASHBOARDS, [Dashboard])
         self.assertEqual(app_settings.CHARTIST_COLORS, 'google')
 
+    @override_settings(
+        CONTROLCENTER_DASHBOARDS={'default': Dashboard})
+    def test_changes_with_slug(self):
+        self.assertEqual(app_settings.DASHBOARDS, {'default': Dashboard})
+
     def test_unknown(self):
         with self.assertRaises(AttributeError):
             app_settings.DEBUG

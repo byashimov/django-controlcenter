@@ -54,6 +54,14 @@ Update settings file:
         'project.dashboards.MyDashboard',
     )
 
+The ``CONTROLCENTER_DASHBOARDS`` setting may also be a dictionary with the keys being the desired url slugs.
+
+.. code-block:: python
+
+    CONTROLCENTER_DASHBOARDS = {
+        'widgets': 'project.dashboards.WidgetDashboard',
+    }
+
 Plug in urls:
 
 .. code-block:: python
@@ -68,7 +76,7 @@ Plug in urls:
         ...
     ]
 
-Open ``/admin/dashboard/0/`` in browser.
+Open ``/admin/dashboard/0/`` in browser. (``/admin/dashboard/widgets/`` if you went with slugs)
 
 
 Documentation
