@@ -15,6 +15,7 @@ Contents
    charts
    customization
    examples
+   admin_tools
 
 
 Indices and tables
