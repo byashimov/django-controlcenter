@@ -25,9 +25,8 @@ Lets say we have an app with this models:
 
     class Order(models.Model):
         created = models.DateTimeField(auto_now_add=True)
-        restaurant = models.ForeignKey(Restaurant, related_name='orders')
-        pizza = models.ForeignKey(Pizza, related_name='orders')
-
+        restaurant = models.ForeignKey(Restaurant, related_name='orders', on_delete=models.CASCADE)
+        pizza = models.ForeignKey(Pizza, related_name='orders', on_delete=models.CASCADE)
 
 I'm going to put all imports in here just to not mess up the code blocks:
 
@@ -234,7 +233,9 @@ LineChart widget with multiple series
             # Some dates might not exist in database (no orders are made that
             # day), makes sure the chart will get valid values.
             series = []
-            for restaurant in self.legend:
+            # Since Chartist reverseData is True by default in LineChart,
+            # series order should also be reversed
+            for restaurant in reversed(self.legend):
                 # Sets zero if date not found
                 item = self.values.get(restaurant, {})
                 series.append([item.get(label, 0) for label in self.labels])
