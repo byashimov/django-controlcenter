@@ -1,0 +1,34 @@
+chartist-colors(names, colors)
+    for name, color in names
+        .ct-series-{name}
+            .ct-bar,
+            .ct-line,
+            .ct-point,
+            .ct-slice-donut
+                stroke colors[color]
+
+            .ct-area,
+            .ct-slice-pie
+                fill colors[color]
+
+        .ct-legend-{name}
+            background colors[color]
+
+
+size(w, h)
+    width w
+    height h
+
+
+square(d)
+    size(d, d)
+
+
+hover-focus()
+    &:hover, &:focus
+        {block}
+
+
+no-select()
+    user-select none
+    outline none

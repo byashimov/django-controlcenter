@@ -1,0 +1,195 @@
+.ct-series-a .ct-bar,
+.ct-series-a .ct-line,
+.ct-series-a .ct-point,
+.ct-series-a .ct-slice-donut {
+  stroke: #f05b4f;
+}
+.ct-series-a .ct-area,
+.ct-series-a .ct-slice-pie {
+  fill: #f05b4f;
+}
+.ct-legend-a {
+  background: #f05b4f;
+}
+.ct-series-b .ct-bar,
+.ct-series-b .ct-line,
+.ct-series-b .ct-point,
+.ct-series-b .ct-slice-donut {
+  stroke: #2196f3;
+}
+.ct-series-b .ct-area,
+.ct-series-b .ct-slice-pie {
+  fill: #2196f3;
+}
+.ct-legend-b {
+  background: #2196f3;
+}
+.ct-series-c .ct-bar,
+.ct-series-c .ct-line,
+.ct-series-c .ct-point,
+.ct-series-c .ct-slice-donut {
+  stroke: #4caf50;
+}
+.ct-series-c .ct-area,
+.ct-series-c .ct-slice-pie {
+  fill: #4caf50;
+}
+.ct-legend-c {
+  background: #4caf50;
+}
+.ct-series-d .ct-bar,
+.ct-series-d .ct-line,
+.ct-series-d .ct-point,
+.ct-series-d .ct-slice-donut {
+  stroke: #ffc107;
+}
+.ct-series-d .ct-area,
+.ct-series-d .ct-slice-pie {
+  fill: #ffc107;
+}
+.ct-legend-d {
+  background: #ffc107;
+}
+.ct-series-e .ct-bar,
+.ct-series-e .ct-line,
+.ct-series-e .ct-point,
+.ct-series-e .ct-slice-donut {
+  stroke: #673ab7;
+}
+.ct-series-e .ct-area,
+.ct-series-e .ct-slice-pie {
+  fill: #673ab7;
+}
+.ct-legend-e {
+  background: #673ab7;
+}
+.ct-series-f .ct-bar,
+.ct-series-f .ct-line,
+.ct-series-f .ct-point,
+.ct-series-f .ct-slice-donut {
+  stroke: #03a9f4;
+}
+.ct-series-f .ct-area,
+.ct-series-f .ct-slice-pie {
+  fill: #03a9f4;
+}
+.ct-legend-f {
+  background: #03a9f4;
+}
+.ct-series-g .ct-bar,
+.ct-series-g .ct-line,
+.ct-series-g .ct-point,
+.ct-series-g .ct-slice-donut {
+  stroke: #8bc34a;
+}
+.ct-series-g .ct-area,
+.ct-series-g .ct-slice-pie {
+  fill: #8bc34a;
+}
+.ct-legend-g {
+  background: #8bc34a;
+}
+.ct-series-h .ct-bar,
+.ct-series-h .ct-line,
+.ct-series-h .ct-point,
+.ct-series-h .ct-slice-donut {
+  stroke: #ff9800;
+}
+.ct-series-h .ct-area,
+.ct-series-h .ct-slice-pie {
+  fill: #ff9800;
+}
+.ct-legend-h {
+  background: #ff9800;
+}
+.ct-series-i .ct-bar,
+.ct-series-i .ct-line,
+.ct-series-i .ct-point,
+.ct-series-i .ct-slice-donut {
+  stroke: #e91e63;
+}
+.ct-series-i .ct-area,
+.ct-series-i .ct-slice-pie {
+  fill: #e91e63;
+}
+.ct-legend-i {
+  background: #e91e63;
+}
+.ct-series-j .ct-bar,
+.ct-series-j .ct-line,
+.ct-series-j .ct-point,
+.ct-series-j .ct-slice-donut {
+  stroke: #3f51b5;
+}
+.ct-series-j .ct-area,
+.ct-series-j .ct-slice-pie {
+  fill: #3f51b5;
+}
+.ct-legend-j {
+  background: #3f51b5;
+}
+.ct-series-k .ct-bar,
+.ct-series-k .ct-line,
+.ct-series-k .ct-point,
+.ct-series-k .ct-slice-donut {
+  stroke: #009688;
+}
+.ct-series-k .ct-area,
+.ct-series-k .ct-slice-pie {
+  fill: #009688;
+}
+.ct-legend-k {
+  background: #009688;
+}
+.ct-series-l .ct-bar,
+.ct-series-l .ct-line,
+.ct-series-l .ct-point,
+.ct-series-l .ct-slice-donut {
+  stroke: #cddc39;
+}
+.ct-series-l .ct-area,
+.ct-series-l .ct-slice-pie {
+  fill: #cddc39;
+}
+.ct-legend-l {
+  background: #cddc39;
+}
+.ct-series-m .ct-bar,
+.ct-series-m .ct-line,
+.ct-series-m .ct-point,
+.ct-series-m .ct-slice-donut {
+  stroke: #795548;
+}
+.ct-series-m .ct-area,
+.ct-series-m .ct-slice-pie {
+  fill: #795548;
+}
+.ct-legend-m {
+  background: #795548;
+}
+.ct-series-n .ct-bar,
+.ct-series-n .ct-line,
+.ct-series-n .ct-point,
+.ct-series-n .ct-slice-donut {
+  stroke: #9c27b0;
+}
+.ct-series-n .ct-area,
+.ct-series-n .ct-slice-pie {
+  fill: #9c27b0;
+}
+.ct-legend-n {
+  background: #9c27b0;
+}
+.ct-series-o .ct-bar,
+.ct-series-o .ct-line,
+.ct-series-o .ct-point,
+.ct-series-o .ct-slice-donut {
+  stroke: #00bcd4;
+}
+.ct-series-o .ct-area,
+.ct-series-o .ct-slice-pie {
+  fill: #00bcd4;
+}
+.ct-legend-o {
+  background: #00bcd4;
+}

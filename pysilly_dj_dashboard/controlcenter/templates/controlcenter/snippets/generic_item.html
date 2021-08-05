@@ -1,0 +1,13 @@
+{% load external_link from controlcenter_tags %}
+
+{% if item.url %}
+    {% external_link item.url label=item.label %}
+{% elif item.label %}
+    {{ item.label }}
+{% else %}
+    {{ item }}
+{% endif %}
+
+{% if item.help_text %}
+    <div class="help">{{ item.help_text }}</div>
+{% endif %}

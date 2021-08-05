@@ -1,0 +1,43 @@
+.bg-login-image {
+    min-height: 600px;
+}
+
+.login .p-5{
+    margin-top: 20%;
+}
+
+hr {
+    background-color: transparent;
+}
+
+.sidebar-heading a {
+    font-weight: 800;
+    font-size: .65rem;
+    color: rgba(255,255,255,.4);
+}
+
+.sidebar .nav-item .nav-link {
+    padding: .50rem .75rem;;
+}
+
+.nav-item > .row {
+    margin-left: 1px;
+}
+
+.nav-item > .row > .addlink {
+    height: 15px;
+    position: relative;
+    top: 12px;
+}
+
+.sidebar-toggled .addlink{
+    display: none;
+}
+
+#content {
+    padding: 0px;
+}
+
+.dropdown, .navbar-nav li{
+    list-style: none;
+}

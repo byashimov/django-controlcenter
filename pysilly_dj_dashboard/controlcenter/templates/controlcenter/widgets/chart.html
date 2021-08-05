@@ -1,0 +1,68 @@
+{% extends 'controlcenter/widgets/master_widget.html' %}
+{% load controlcenter_tags %}
+
+{% block card_body %}
+    <div id="chart_{{ widget.slug }}" class="ct-chart ct-{{ widget.chartist.scale }}"></div>
+
+    {% block chart_header %}
+        <div class='row'>
+        </div>
+    {% endblock %}
+
+    {% if widget.series %}
+        <script type="text/javascript">
+            (function(){
+                var data = {
+                labels: {{ widget.labels|jsonify }},
+                series: {{ widget.series|jsonify }}
+                };
+
+                var options = ({{ widget.chartist.options|jsonify }} || {});
+
+                {% if widget.chartist.klass == 'Line' and widget.chartist.point_labels %}
+                    options.plugins = [
+                        Chartist.plugins.ctPointLabels({
+                        textAnchor: 'middle',
+                        {% if widget.chartist.time_series %}
+                        {% comment %}
+                            NOTE: chartist-plugin-pointlabels (as of 0.0.6) will always display both the x and y labels.
+                            This is not useful for time series data, and not configurable yet,
+                            so as a workaround, split the combined label and return only the desired y value.
+                        {% endcomment %}
+                        labelInterpolationFnc: function (label) {
+                            return label.split(', ')[1];
+                        },
+                        {% else %}
+                        labelInterpolationFnc: function (label) { return label ? label : 0 }
+                        {% endif %}
+                        })
+                    ];
+                {% endif %}
+
+                {% if widget.chartist.time_series %}
+                    {# For TimeSeriesChart, change the X axis to use FixedScaleAxis, and format human-readable labels. #}
+                    options.axisX = options.axisX || {};
+                    options.axisX.type = Chartist.FixedScaleAxis;
+                    options.axisX.labelInterpolationFnc = function (timestamp) {  // Assume POSIX timestamp in seconds
+                        return new Date(timestamp * 1000).toLocaleString(undefined, {{ widget.chartist.timestamp_options|jsonify }});
+                    };
+                {% endif %}
+
+                new Chartist.{{ widget.chartist.klass }}('#chart_{{ widget.slug }}', data, options);
+            })();
+        </script>
+    {% endif %}
+
+    {% if widget.legend %}
+        <div class="controlcenter__chart-legend">
+            <div class="controlcenter__chart-legend__offset">
+                {% for series in widget.legend %}
+                    <div class="controlcenter__chart-legend__series">
+                    <div class="controlcenter__chart-legend__series__color ct-legend-{% cycle 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' %}"></div>
+                        <div class="controlcenter__chart-legend__series__label">{{ series }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

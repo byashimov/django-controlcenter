@@ -1,0 +1,28 @@
+{% load controlcenter_tags %}
+
+<table class="controlcenter__table"{% if widget.sortable and widget.items|length > 1 %} data-sortable{% endif %}>
+    {% if widget.items and widget.sortable %}
+        <thead class="controlcenter__table__thead">
+            <tr class="controlcenter__table__tr">
+                <th class="controlcenter__table__th controlcenter__table__th--key">{{ widget.key_column_label|default:'Key'}} </th>
+                <th class="controlcenter__table__th controlcenter__table__th--value">{{ widget.value_column_label|default:'Value' }}</th>
+            </tr>
+        </thead>
+    {% endif %}
+    <tbody class="controlcenter__table__tbody">
+        {% for key, value in widget.items %}
+            <tr class="controlcenter__table__tr">
+                <th class="controlcenter__table__th controlcenter__table__th--{{ key.label|default:key|slugify }}">
+                    {% include "controlcenter/snippets/generic_item.html" with item=key %}
+                </th>
+                <td class="controlcenter__table__td controlcenter__table__td--{{ value.label|default:value|slugify }}">
+                    {% include "controlcenter/snippets/generic_item.html" with item=value %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr class="controlcenter__table__tr">
+                <td class="controlcenter__table__td controlcenter__table__td--novalues">{{ widget.empty_message }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

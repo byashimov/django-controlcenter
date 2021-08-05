@@ -1,0 +1,24 @@
+{% block card %}
+    <div class="card">
+        {% if widget.has_header %}
+            <div class="card-header">
+                {% block card_header %}
+                    {{ widget.header }}
+                {% endblock %}
+            </div>
+        {% endif %}
+
+        <div class="card-body">
+            {% block card_body %}
+            {% endblock %}
+        </div>
+        
+        {% if widget.has_footer %}
+            <div class="card-footer text-muted">
+                {% block card_footer %}
+                    {{ widget.footer }}
+                {% endblock %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

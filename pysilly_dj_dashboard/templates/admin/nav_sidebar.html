@@ -1,0 +1,34 @@
+{% load i18n %}
+
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    {% block branding %}
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'admin:index' %}">
+            <div class="sidebar-brand-text mx-3">{{ site_header|default:_('Django administration') }}</div>
+        </a>
+    {% endblock %}
+
+    <hr class="sidebar-divider my-0">
+
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url "admin:index" %}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>{% trans "Dashboard" %}</span></a>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    {% include 'admin/app_list.html' with app_list=available_apps show_changelinks=False %}
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>
+
+{% comment %} <button class="sticky toggle-nav-sidebar" id="toggle-nav-sidebar" aria-label="{% translate 'Toggle navigation' %}"></button>
+<nav class="sticky" id="nav-sidebar">
+  <input type="search" id="nav-filter"
+         placeholder="{% translate 'Start typing to filter...' %}"
+         aria-label="{% translate 'Filter navigation items' %}">
+  {% include 'admin/app_list.html' with app_list=available_apps show_changelinks=False %}
+</nav> {% endcomment %}

@@ -1,0 +1,34 @@
+{% extends "admin/base_site.html" %}
+{% load cache controlcenter_tags %}
+
+{% block title %}{{ dashboard.title }}{% endblock %}
+{% block extrahead %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{ dashboard.media }}
+{% endblock %}
+{% block content %}
+<div id="{{ dashboard.slug }}">
+    <div class="row">
+        <h1 class="display-4"> {{ title }} </h1>
+    </div>
+    {% for group in widgets %}
+        <div class="row pt-2">
+            {% for widget in group %}
+                <div class='col-md-{{ widget.width }}'>
+                    {% if widget.cache_timeout %}
+                        {% cache widget.cache_timeout controlcenter_widget widget.slug %}
+                            {% include widget.get_template_name %}
+                        {% endcache %}
+                    {% else %}
+                        {% include widget.get_template_name %}
+                    {% endif %}
+
+                    {% if widget.changelist_url %}
+                        <a class="controlcenter__widget__out" href="{{ widget|changelist_url }}" title="Show more"></a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

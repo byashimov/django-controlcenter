@@ -1,0 +1,346 @@
+@import 'variables.styl'
+@import 'mixins.styl'
+
+.controlcenter
+    &,
+    *,
+    *::before,
+    *::after
+        box-sizing border-box
+
+    line-height $line-height
+    font-size $font-size
+    color $text-color
+    width 100%
+
+
+.controlcenter__masonry
+    width 100%
+    overflow hidden
+    margin-bottom 20px
+
+    offset-x = 20px
+    offset-y = 20px
+
+    &__offset
+        overflow hidden
+        margin (- offset-y) 0 0 (- offset-x)
+
+        // Ignores masonry
+        @media (max-width $screen-sm  - 1px)
+            position relative !important
+            height auto !important
+
+    &__block
+        float left
+        padding offset-y 0 0 offset-x
+        width 100%
+
+        &--sizer
+            display block
+            padding 0
+            height 0
+
+        // Ignores masonry
+        @media (max-width $screen-sm  - 1px)
+            position relative !important
+            left auto !important
+            top auto !important
+
+        cols = 6
+        @media (min-width $screen-sm)
+            // Masonry needs all classes to be defined explicitly
+            // or it makes a mess
+            for i in range(1, (cols - 3))
+                &--w{i}
+                    width 50%
+
+            &--w4, &--w5, &--w6
+                 width 100%
+
+        @media (min-width $screen-md)
+            // We don't need all this columns
+            // but Masonry needs a real grid to calculate width
+            &--w1
+                width ((1 / 4) * 100)%
+            &--w2
+                width ((1 / 3) * 100)%
+            &--w3
+                width ((1 / 2) * 100)%
+            &--w4
+                width ((2 / 3) * 100)%
+            &--w5
+                width ((3 / 4) * 100)%
+            &--w6
+                width ((1 / 1) * 100)%
+
+
+.controlcenter__widget
+    tab-height = 35px
+
+    overflow hidden
+    position relative
+    border 1px solid #e3e3e3
+    // border .55px solid #ccc
+    border-radius $border-radius
+    background-color #f2f2f2
+    background-repeat repeat-x, repeat
+    background-size auto tab-height, auto
+    background-image embedurl('../images/widget-tab.png'),
+                     embedurl('../images/widget-stripes.png')
+
+    // Credits to http://chikuyonok.ru/2009/04/dl-tabs/
+
+    &__tab, &__subtitle
+        no-select()
+        float left
+        height tab-height
+        line-height @height
+        padding 0 $axis-x
+        position relative
+        cursor pointer
+        text-transform uppercase
+        font-size 11px
+        font-weight bold
+        color #aaa
+
+        &--active
+            cursor default
+            color $text-color
+
+            & + ^[-2]__body
+                // Tab's body next to active tab makes it visible.
+                // Somehow `display: none` breaks Chartist so we can't use it.
+                // `height: 0` works too but different children heights
+                // break Masonry grid
+                visibility visible
+
+                @media (max-width $screen-sm  - 1px)
+                    position relative
+
+                & + ^[-3]__out
+                    display block
+
+    &__body
+        overflow auto
+        visibility hidden
+        margin tab-height 0 0 -100%
+        width 100%
+        float right
+        background #fff
+        box-shadow 0 2px 2px rgba(0,0,0,.1)
+
+        // Let tabs fall under if no enough room for it
+        position relative
+        z-index 1
+
+        @media (max-width $screen-sm  - 1px)
+            position absolute
+
+
+    &__out
+        opacity .5
+        display none
+        position absolute
+        z-index 2
+        outline none
+        top 0
+        right @top
+        background-image embedurl('../images/widget-out.png')
+        background-position center
+        background-repeat no-repeat
+        background-size 12px
+        cursor pointer
+        square(@background-size + 8px)
+
+        +hover-focus()
+            opacity 1
+
+
+.controlcenter__nav
+    no-select()
+    overflow hidden
+    font-size 0
+    text-align center
+    margin-bottom 15px
+    white-space nowrap
+
+    &__item
+        display inline-block
+        vertical-align top
+        text-decoration none !important
+        border 1px solid #e3e3e3
+        background #f2f2f2
+        line-height 26px
+        padding 0 15px
+        font-size $font-size
+        margin-right -1px
+
+        &:first-child
+            border-radius @line-height 0 0 @line-height
+
+        &:last-child
+            border-radius 0 @line-height @line-height 0
+            margin-right 0
+
+        &--active
+            font-weight bold
+            background #eee
+            cursor default
+
+
+.controlcenter__table
+    display table
+    width 100%
+    border 0
+
+    &__th, &__td
+        border 0
+        vertical-align top
+        padding $axis-y ($axis-x / 2)
+        background none
+
+        // Grappelli style overrides
+        font-size $font-size
+        line-height $line-height
+
+        &:first-child
+            padding-left $axis-x
+
+        &:last-child
+            padding-right $axis-x
+
+        // Fit it
+        &--pk, &--id, &--row-counter
+            width 1%
+
+        &--row-counter
+            text-align right
+
+    &__th
+        color #888
+        // Django styles fix
+        text-transform none
+
+    &__td
+        word-wrap break-word
+
+        &--row-counter
+            color #ccc
+
+        &--novalues
+            color #ccc
+            text-align center
+
+    &__thead
+        // Thead is always sortable
+
+        & ^[0]__th
+            no-select()
+            cursor default
+            background #f2f2f2
+            font-weight normal
+
+            ^[0][data-sortable] &
+                // Sortable th behaviour
+                cursor pointer
+
+                &:hover
+                    color #aaa
+
+                &::after
+                    content ""
+                    visibility hidden
+                    display inline-block
+                    vertical-align inherit
+                    height 0
+                    width 0
+                    border-width 5px
+                    border-style solid
+                    border-color transparent
+                    margin-right 1px
+                    margin-left 10px
+                    float right
+
+                &[data-sorted='true']::after
+                    visibility visible
+
+                &[data-sorted-direction='ascending']
+                    color $text-color !important
+                    background-image linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.035) 100%)
+
+                    &::after
+                        border-bottom-color inherit
+                        margin-top 1px
+
+                &[data-sorted-direction='descending']
+                    color $text-color !important
+                    background-image linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,.05) 100%)
+
+                    &::after
+                        border-top-color inherit
+                        margin-top 6px
+
+    &__tbody
+        & ^[0]__tr
+            background #fff
+
+            &:nth-child(odd)
+                background #fafafa
+
+
+// Charts
+.controlcenter__chart-legend
+    overflow hidden
+    padding 8px
+    background-color #f8f8f8
+
+    &__offset
+        margin -15px 0 0 -15px
+        overflow hidden
+
+    &__series
+        float left
+        margin 15px 0 0 15px
+        font-size 11px
+        line-height 1
+        padding 2px
+
+        &__color
+            float left
+            width 10px
+            height 10px
+            margin 1px
+            border-radius 50%
+
+        &__label
+            margin-left 15px
+
+.ct-chart:empty
+    background-size 28px auto
+    background-image embedurl('../images/chart-no-data.png')
+    background-position center
+    background-repeat no-repeat
+
+
+// Grappelli overwrites
+#grp-content-title
+    display none
+
+#grp-content
+    padding-bottom 0
+
+// Django overrides
+#container
+    min-width $screen-xs !important
+
+#content
+    > h1
+        display none
+
+    @media (max-width $screen-md  - 1px)
+        &,
+        /.breadcrumbs,
+        /#header
+            padding-left 20px !important
+            padding-right @padding-left

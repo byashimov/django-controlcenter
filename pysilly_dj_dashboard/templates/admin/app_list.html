@@ -1,0 +1,35 @@
+{% load i18n controlcenter_tags %}
+
+{% if app_list %}
+  {% for app in app_list %}
+    <div class="sidebar-heading">
+        <a href="{{ app.app_url }}" title="{% blocktranslate with name=app.name %}Models in the {{ name }} application{% endblocktranslate %}">{{ app.name }}</a>
+    </div>
+
+    {% for model in app.models %}
+      <li class="nav-item {% if model.admin_url in request.path %}active{% endif %}">
+          <div class='row'>
+            {% if model.admin_url %}
+              <a class="nav-link {% if model.admin_url in request.path %}active{% endif %} col-sm-10" href="{{ model.admin_url }}">
+                  <i class="fas fa-fw fa-{% get_model_icon model %}"></i>
+                  <span>{{ model.name }}</span>
+              </a>
+            {% else %}
+              <a class="nav-link">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>{{ model.name }}</span>
+              </a>
+            {% endif %}
+
+            {% if model.add_url %}
+              <a href="{{ model.add_url }}" class="addlink col-sm-2"></a>
+            {% endif %}
+          </div>
+      </li>
+    {% endfor %}
+
+    <hr class="sidebar-divider d-none d-md-block">
+  {% endfor %}
+{% else %}
+  <p>{% translate 'You don’t have permission to view or edit anything.' %}</p>
+{% endif %}

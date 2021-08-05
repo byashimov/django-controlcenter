@@ -1,0 +1,124 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  {{ form.media }}
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} bg-gradient-primary{% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block containerclass %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block bodyid %}{% endblock %}
+
+{% block containerid %}{% endblock %}
+
+{% block container %}
+  <div class="container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h3 class="h4 text-gray-500 ">{% trans 'Welcome Back!' %}</h3>
+                                    <h2 class="mb-4 text-gray-900">{{ site_header|default:_('Django administration') }}</h2>
+                                </div>
+                                {% if user.is_authenticated %}
+                                  <p class="errornote">
+                                    {% blocktranslate trimmed %}
+                                        You are authenticated as {{ username }}, but are not authorized to
+                                        access this page. Would you like to login to a different account?
+                                    {% endblocktranslate %}
+                                  </p>
+                                {% endif %}
+                                
+                                <!-- Form error display -->
+                                {% if form.errors and not form.non_field_errors %}
+                                  <p class="errornote">
+                                    {% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}
+                                    </p>
+                                    {% endif %}
+
+                                  {% if form.non_field_errors %}
+                                    {% for error in form.non_field_errors %}
+                                    <p class="errornote">
+                                        {{ error }}
+                                    </p>
+                                    {% endfor %}
+                                  {% endif %}
+                                <form class="user" action="{{ app_path }}" method="post" id="login-form">
+                                    {% csrf_token %}
+
+                                    <div class="form-group">
+                                        {{ form.username.errors }}
+                                        <input 
+                                            type="text"
+                                            class="form-control form-control-user"
+                                            id="exampleInputEmail"
+                                            aria-describedby="emailHelp"
+                                            placeholder="{{ form.username.label }}"
+                                            name="{{ form.username.name }}"
+                                            required=""
+                                        >
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form.password.errors }}
+                                        <input
+                                            type="password"
+                                            class="form-control form-control-user"
+                                            id="exampleInputPassword"
+                                            placeholder="{{ form.password.label }}"
+                                            name="{{ form.password.name }}"
+                                            required=""
+                                        >
+                                    </div>
+                                    <input type="submit" value="{% translate 'Log in' %}" class="btn btn-primary btn-user btn-block">
+                                    {% comment %} 
+                                    <hr>
+                                    <a href="index.html" class="btn btn-google btn-user btn-block">
+                                        <i class="fab fa-google fa-fw"></i> Login with Google
+                                    </a>
+                                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                        <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                                    </a> {% endcomment %}
+                                </form>
+                                <hr>
+                                {% comment %} <div class="text-center">
+                                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" href="register.html">Create an Account!</a>
+                                </div> {% endcomment %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+  </div>
+{% endblock %}

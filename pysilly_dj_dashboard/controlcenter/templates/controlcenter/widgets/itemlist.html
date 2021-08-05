@@ -1,0 +1,60 @@
+{% extends 'controlcenter/widgets/master_widget.html' %}
+{% load controlcenter_tags %}
+
+{% block card_body %}
+    <table class="table table-hover"{% if widget.sortable and widget.values|length > 1 %} data-sortable{% endif %}>
+        {% if widget.list_display and widget.values %}
+            <thead>
+                <tr>
+                    {% for attr in widget.list_display %}
+                        {% if attr == sharp %}
+                            <th scope='col'>{{ sharp }}</th>
+                        {% else %}
+                            <th scope='col'>{{ widget|attrlabel:attr|capfirst }}</th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            </thead>
+        {% endif %}
+        <tbody>
+            {% for obj in widget.values %}
+                <tr>
+                    {% change_url widget obj as url %}
+                    {% for attr in widget.list_display %}
+                        <td>
+                            {% if attr == sharp %}
+                                {% if url and attr in widget.list_display_links or url and not widget.list_display_links and forloop.first %}
+                                    <a href="{{ url }}">{{ forloop.parentloop.counter }}</a>
+                                {% else %}
+                                    {{ forloop.parentloop.counter }}
+                                {% endif %}
+                            {% elif url and attr in widget.list_display_links or url and not widget.list_display_links and forloop.first %}
+                                <a href="{{ url }}">{% attrvalue widget obj attr %}</a>
+                            {% else %}
+                                {% attrvalue widget obj attr %}
+                            {% endif %}
+                        </td>
+                    {% empty %}
+                        {% if obj|is_sequence %}
+                            {% for value in obj %}
+                                <td>
+                                    {% if url and forloop.first %}
+                                        <a href="{{ url }}">{{ value }}</a>
+                                    {% else %}
+                                        {{ value }}
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        {% else %}
+                            <td>Object is not iterable.</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% empty %}
+                <tr class="controlcenter__table__tr">
+                    <td class="controlcenter__table__td controlcenter__table__td--novalues">{{ widget.empty_message }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,198 @@
+{% load i18n static %}
+{% load bootstrap4 %}
+
+
+<!DOCTYPE html>
+
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">
+<head>
+  <title>{% block title %}{% endblock %}</title>
+
+  <!-- Common fonts and styles -->
+  <link href="{% static 'controlcenter/vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+  <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+
+  
+
+  <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}">
+  {% bootstrap_css %}
+
+  {% if not is_popup and is_nav_sidebar_enabled %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/nav_sidebar.css" %}">
+    <script src="{% static 'admin/js/nav_sidebar.js' %}" defer></script>
+  {% endif %}
+
+  {% block extrastyle %}{% endblock %}
+
+  {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}">{% endif %}
+
+  {% block extrahead %}{% endblock %}
+
+  {% block responsive %}
+      <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+      <link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive.css" %}">
+      {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive_rtl.css" %}">{% endif %}
+  {% endblock %}
+
+  {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
+
+  <link href="{% static "controlcenter/css/sb-admin-2.min.css" %}" rel="stylesheet">
+
+  <link href="{% static "controlcenter/css/silly_dashboard.css" %}" rel="stylesheet">
+</head>
+
+<body 
+  class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
+  data-admin-utc-offset="{% now "Z" %}"
+  id="{% block bodyid %}page-top{% endblock %}"
+>
+
+  <!-- Container -->
+  <div id="{% block containerid %}wrapper{% endblock %}" class="{% block containerclass %}{% endblock %}">
+      {% block container %}
+        {% if not is_popup %}
+
+          {% if not is_popup and is_nav_sidebar_enabled %}
+            {% block nav-sidebar %}
+              {% include "admin/nav_sidebar.html" %}
+            {% endblock %}
+          {% endif %}
+          
+        {% endif %}
+
+        {% block main %}
+          <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-1 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ site_url }}" id="userDropdown">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{% translate 'View site' %}</span>
+                            </a>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        {% if has_permission %}
+                          <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    {% trans "Welcome" %} <strong>{% firstof user.get_short_name user.get_username %}</strong>
+                                  </span>
+                              </a>
+                              <!-- Dropdown - User Information -->
+                              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                  aria-labelledby="userDropdown">
+                                  <a class="dropdown-item" href="/admin/auth/user/{{ user.pk }}/change/">
+                                      <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                      Profile
+                                  </a>
+                                  {% if user.has_usable_password %}
+                                    <a class="dropdown-item" href="{% url 'admin:password_change' %}">
+                                        <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        {% translate 'Change password' %}
+                                    </a>
+                                  {% endif %}
+                                  <a class="dropdown-item" href="#">
+                                      <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                      Activity Log
+                                  </a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item" href="{% url 'admin:logout' %}">
+                                      <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                      {% translate 'Log out' %}
+                                  </a>
+                              </div>
+                            {% endif %}
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                {% block breadcrumbs %}
+                  <div class="breadcrumbs m-1 mb-4">
+                    <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+                    {% if title %} &rsaquo; {{ title }}{% endif %}
+                  </div>
+                {% endblock %} 
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    {% block messages %}
+                      {% if messages %}
+                        {% bootstrap_messages %}
+                      {% endif %}
+                    {% endblock messages %}
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        {% block pretitle %}{% endblock %}
+                        {% block content_title %}{% if title %}<h1 class="h3 mb-0 text-gray-800">{{ title }}</h1>{% endif %}{% endblock %}
+                        
+                        {% block content_top_actions %}{% endblock %}
+                    </div>
+
+                    {% block content %}
+                      {% block object-tools %}{% endblock %}
+                      {{ content }}
+                    {% endblock %}
+
+                    {% block sidebar %}{% endblock %}
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            {% block footer %}
+              <footer class="sticky-footer bg-white">
+                  <div class="container my-auto">
+                      <div class="copyright text-center my-auto">
+                          <span>Copyright &copy; Sillymatter.com</span>
+                      </div>
+                  </div>
+              </footer>
+            {% endblock %}
+            <!-- End of Footer -->
+
+          </div>
+        {% endblock %}
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+      {% endblock %}
+  </div>
+  <!-- END Container -->
+
+  {% bootstrap_javascript jquery='full' %}
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'controlcenter/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'controlcenter/js/sb-admin-2.min.js' %}"></script>
+
+</body>
+
+</html>
