@@ -3,6 +3,7 @@ from collections.abc import Sequence, Mapping
 from functools import partial
 
 from django import template
+from django.core.exceptions import FieldDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.db.models.base import ModelBase
@@ -182,7 +183,7 @@ def attrlabel(widget, attrname):
         try:
             field = widget.model._meta.get_field(fieldname)
             return field.verbose_name
-        except models.FieldDoesNotExist:
+        except FieldDoesNotExist:
             pass
     return attrname
 
