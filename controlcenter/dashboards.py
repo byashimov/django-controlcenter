@@ -1,4 +1,4 @@
-import collections
+from collections.abc import Sequence
 
 from django.forms.widgets import MediaDefiningClass
 from django.urls import reverse
@@ -42,7 +42,7 @@ class Dashboard(BaseModel, metaclass=MediaDefiningClass):
     def get_widgets(self, request, **options):
         # TODO: permission check
         for item in self.widgets:
-            if isinstance(item, collections.Sequence):
+            if isinstance(item, Sequence):
                 group = Group() + item
             else:
                 group = Group([item])

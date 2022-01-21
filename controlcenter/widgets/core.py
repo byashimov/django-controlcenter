@@ -1,4 +1,4 @@
-import collections
+from collections.abc import Sequence
 import itertools
 import os
 from abc import ABCMeta
@@ -85,7 +85,7 @@ class BaseWidget(BaseModel, metaclass=WidgetMeta):
         return queryset
 
 
-class Group(collections.Sequence):
+class Group(Sequence):
     def __init__(self, widgets=None, attrs=None, width=None, height=None):
         self.widgets = tuple(widgets or ())
         self.attrs = (attrs or {}).copy()

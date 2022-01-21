@@ -1,8 +1,9 @@
-import collections
 import json
+from collections.abc import Sequence, Mapping
 from functools import partial
 
 from django import template
+from django.core.exceptions import FieldDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.db.models.base import ModelBase
@@ -23,7 +24,7 @@ def jsonify(obj):
 
 @register.filter
 def is_sequence(obj):
-    return isinstance(obj, collections.Sequence)
+    return isinstance(obj, Sequence)
 
 
 @register.simple_tag
@@ -33,7 +34,7 @@ def change_url(widget, obj):
         # No chance to get model url
         return
 
-    elif isinstance(obj, collections.Mapping):
+    elif isinstance(obj, Mapping):
         pk = obj.get('pk', obj.get('id'))
         meta = widget.model._meta
 
@@ -117,7 +118,7 @@ def attrvalue(widget, obj, attrname):
     attr = getattr(widget, attrname, None)
     if attr and callable(attr):
         value = attr(obj)
-    elif isinstance(obj, collections.Mapping):
+    elif isinstance(obj, Mapping):
         # Manager.values()
         value = obj.get(attrname)
     elif indexonly(obj):
@@ -182,7 +183,7 @@ def attrlabel(widget, attrname):
         try:
             field = widget.model._meta.get_field(fieldname)
             return field.verbose_name
-        except models.FieldDoesNotExist:
+        except FieldDoesNotExist:
             pass
     return attrname
 
