@@ -1,4 +1,4 @@
-import collections
+from collections.abc import Sequence
 
 from django.utils.text import camel_case_to_spaces, capfirst
 
@@ -24,5 +24,5 @@ def deepmerge(*dicts):
 def indexonly(obj):
     # Checks if given object is a sequence but not a namedtuple
     # If your custom class instance passed this, then why did you do that?
-    return (isinstance(obj, collections.Sequence) and not
+    return (isinstance(obj, Sequence) and not
             hasattr(obj, '_make') and not hasattr(obj, '_replace'))

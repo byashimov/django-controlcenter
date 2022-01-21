@@ -1,9 +1,9 @@
 import collections
+from collections.abc import Sequence
 
 from django.contrib.auth.models import User
 
 from controlcenter.utils import captitle, deepmerge, indexonly
-
 from . import TestCase
 
 
@@ -74,7 +74,7 @@ class SampleTest(TestCase):
         # Django model
         self.assertFalse(indexonly(User()))
 
-        class MySequence(collections.Sequence):
+        class MySequence(Sequence):
             def __init__(self, data):
                 self.data = data
 
