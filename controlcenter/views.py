@@ -12,9 +12,9 @@ from django.views.generic.base import TemplateView
 from . import app_settings
 
 try:
-    from django.urls import re_conf
+    from django.urls import re_path
 except ImportError:
-    from django.conf.urls import url as re_conf
+    from django.conf.urls import url as re_path
 
 
 
@@ -28,7 +28,7 @@ class ControlCenter(object):
 
     def get_urls(self):
         urlpatterns = [
-            re_conf(r'^(?P<pk>\w+)/$', self.get_view(), name='dashboard'),
+            re_path(r'^(?P<pk>\w+)/$', self.get_view(), name='dashboard'),
         ]
         return urlpatterns
 
