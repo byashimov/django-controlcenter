@@ -101,7 +101,7 @@ Compatibility
     :alt: Codecov
     :target: https://codecov.io/github/byashimov/django-controlcenter?branch=master
 
-Tested on py 3.5, 3.6, 3.7, 3.8 with django 1.11, 2.2, 3.0.
+Tested on py 3.5—3.10 and django 1—4.
 
 
 Credits
@@ -112,6 +112,12 @@ This project uses Chartist.js_, Masonry.js_ and Sortable.js_.
 
 Changelog
 ---------
+
+0.3.1
+~~~~~
+
+- Support django 4.0, python 3.10. Thanks to @mick88.
+- Fixed LineChart example. Thanks to @virtosubogdan.
 
 0.3.0
 ~~~~~

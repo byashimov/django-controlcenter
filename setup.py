@@ -5,7 +5,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='django-controlcenter',
-    version='0.3.0',
+    version='0.3.1',
     description='Set of widgets to build dashboards for your Django-project.',
     long_description=long_description,
     url='https://github.com/byashimov/django-controlcenter',
@@ -30,9 +30,12 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Framework :: Django',
-        'Framework :: Django :: 1.11',
-        'Framework :: Django :: 2.2',
-        'Framework :: Django :: 3.0',
+        'Framework :: Django :: 1',
+        'Framework :: Django :: 2',
+        'Framework :: Django :: 3',
+        'Framework :: Django :: 4',
     ],
 )

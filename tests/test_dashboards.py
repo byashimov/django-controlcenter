@@ -12,8 +12,6 @@ except ImportError:
     from django.core.urlresolvers import reverse
 
 
-
-
 @override_settings(CONTROLCENTER_DASHBOARDS=())
 class A_DashboardTest(TestCase):
     # Must be first

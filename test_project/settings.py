@@ -10,7 +10,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'controlcenter',
 )
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -18,8 +18,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-MIDDLEWARE = MIDDLEWARE_CLASSES  # django > 1.10
-
+# https://docs.djangoproject.com/en/4.0
+# /releases/3.2/#customizing-type-of-auto-created-primary-keys
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 ROOT_URLCONF = 'urls'
 TEMPLATES = [
     {
