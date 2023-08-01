@@ -76,8 +76,8 @@ Plug in urls:
     from controlcenter.views import controlcenter
 
     urlpatterns = [
-        path('admin/', admin.site.urls),
         path('admin/dashboard/', controlcenter.urls),
+        path('admin/', admin.site.urls),
         ...
     ]
 
