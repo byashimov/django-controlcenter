@@ -113,6 +113,11 @@ This project uses Chartist.js_, Masonry.js_ and Sortable.js_.
 Changelog
 ---------
 
+0.3.2
+~~~~~
+
+- Automatically redirect the main app url to the first dashboard.
+
 0.3.1
 ~~~~~
 
