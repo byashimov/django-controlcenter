@@ -122,3 +122,18 @@ class B_DashboardTest(TestCase):
             for chunk in expected:
                 # fixme: use subtest someday
                 self.assertInHTML(chunk, content)
+
+    def test_redirect_to_first_dashboard(self):
+        self.client.login(username='superuser', password='superpassword')
+        dashboards = (
+            ('foo', 'dashboards.EmptyDashboard'),
+            ('bar', 'dashboards.EmptyDashboard'),
+            ('baz', 'dashboards.EmptyDashboard'),
+        )
+        with self.settings(CONTROLCENTER_DASHBOARDS=dashboards):
+            url = reverse('controlcenter:dashboard-index')
+            self.assertEqual(url, '/admin/dashboard/')
+            expected_url = reverse('controlcenter:dashboard', kwargs={'pk':'foo'})
+            self.assertEqual(expected_url, '/admin/dashboard/foo/')
+            response = self.client.get(url)
+            self.assertRedirects(response, expected_url)
