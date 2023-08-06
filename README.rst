@@ -116,7 +116,7 @@ Changelog
 0.3.2
 ~~~~~
 
-- Automatically redirect the main app url to the first dashboard.
+- Automatically redirect the main app url to the first dashboard. Thanks to @fabiocaccamo.
 
 0.3.1
 ~~~~~

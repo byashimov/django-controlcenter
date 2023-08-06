@@ -131,7 +131,7 @@ class B_DashboardTest(TestCase):
             ('baz', 'dashboards.EmptyDashboard'),
         )
         with self.settings(CONTROLCENTER_DASHBOARDS=dashboards):
-            url = reverse('controlcenter:dashboard-index')
+            url = reverse('controlcenter:index')
             self.assertEqual(url, '/admin/dashboard/')
             expected_url = reverse('controlcenter:dashboard', kwargs={'pk':'foo'})
             self.assertEqual(expected_url, '/admin/dashboard/foo/')

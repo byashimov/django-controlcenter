@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ImproperlyConfigured
 from django.http import Http404, HttpResponseRedirect
-from django.urls import reverse
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.module_loading import import_string
@@ -13,7 +13,7 @@ from django.views.generic.base import TemplateView
 from . import app_settings
 
 try:
-    from django.urls import path, re_path
+    from django.urls import re_path
 except ImportError:
     from django.conf.urls import url as re_path
 
@@ -29,7 +29,7 @@ class ControlCenter(object):
 
     def get_urls(self):
         urlpatterns = [
-            path('', self.get_view(), name='dashboard-index'),
+            re_path(r'^$', self.get_view(), name='index'),
             re_path(r'^(?P<pk>\w+)/$', self.get_view(), name='dashboard'),
         ]
         return urlpatterns
@@ -49,17 +49,17 @@ class DashboardView(TemplateView):
         return super(DashboardView, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        pk = str(self.kwargs.get('pk', ''))
-        if not pk:
-            first_dashboard_pk = next(iter(self.dashboards.keys()))
-            first_dashboard_url = reverse('controlcenter:dashboard', kwargs={
-                'pk': first_dashboard_pk,
-            })
-            return HttpResponseRedirect(first_dashboard_url)
+        pk = self.kwargs.get('pk')
+
+        # Redirects to the first dashboard if pk is not provided
+        if not pk and self.dashboards:
+            dashboard = next(iter(self.dashboards.values()))
+            return redirect(dashboard.get_absolute_url())
+
         try:
             self.dashboard = self.dashboards[pk]
         except KeyError:
-            raise Http404(f'Dashboard not found. {pk} - {self.dashboards}')
+            raise Http404(f'Dashboard "{pk}" not found')
         return super(DashboardView, self).get(request, *args, **kwargs)
 
     @cached_property
