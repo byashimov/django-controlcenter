@@ -7,12 +7,12 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.6.15", "3.7", "3.8", "3.9", "3.10"]
         django-version: ["2.2", "3.2", "4.0"]
         exclude:
           # Django 4.0 supports Python 3.8+
           - django-version: 4.0
-            python-version: 3.6
+            python-version: 3.6.15
           - django-version: 4.0
             python-version: 3.7
     runs-on: ubuntu-latest
