@@ -113,6 +113,12 @@ This project uses Chartist.js_, Masonry.js_ and Sortable.js_.
 Changelog
 ---------
 
+0.3.3
+~~~~~
+
+- Add source maps for chartist static assets for Django 4.1. Thanks to @ilikerobots.
+
+
 0.3.2
 ~~~~~
 
